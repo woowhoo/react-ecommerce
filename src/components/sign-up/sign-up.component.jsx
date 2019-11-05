@@ -1,7 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
+
+import { setCurrentUser } from '../../redux/user/user.actions';
 import { user } from '../../utils/user/user.component';
 
 import './sign-up.styles.scss';
@@ -39,7 +42,7 @@ class SignUp extends React.Component {
         confirmPassword: ''
       });
 
-      console.log(currentUser);
+      this.props.setCurrentUser(currentUser);
 
     } catch (error) {
       console.error(error)
@@ -70,4 +73,8 @@ class SignUp extends React.Component {
   }
 }
 
-export default SignUp;
+const mapDispatchToProps = dispatch => ({
+  setCurrentUser: user => dispatch(setCurrentUser(user))
+});
+
+export default connect(null, mapDispatchToProps)(SignUp);

@@ -1,7 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
+
+import { setCurrentUser } from '../../redux/user/user.actions';
 import { user } from '../../utils/user/user.component';
 
 
@@ -24,13 +27,15 @@ class SignIn extends React.Component {
     try {
 
       const currentUser = await user.login(email, password);
-      console.log(currentUser);
+
+      this.setState({ email: '', password: ''})
+      this.props.setCurrentUser(currentUser);
 
     } catch (error) {
       console.error(error)
     }
 
-    this.setState({ email: '', password: ''})
+
   }
 
   handleChange = event => {
@@ -61,4 +66,8 @@ class SignIn extends React.Component {
   }
 }
 
-export default SignIn;
+const mapDispatchToProps = dispatch => ({
+  setCurrentUser: user => dispatch(setCurrentUser(user))
+});
+
+export default connect(null, mapDispatchToProps)(SignIn);
