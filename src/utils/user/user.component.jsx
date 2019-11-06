@@ -1,6 +1,5 @@
 import CONFIG from '../../config/config.js';
 
-
 export const user = {
     login,
     logout,

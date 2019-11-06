@@ -1,3 +1,5 @@
+import CONFIG from '../../config/config.js';
+
 export const events = {
     register
 };
@@ -10,7 +12,7 @@ function register(name, email, mobile) {
     };
     console.log("EVENT")
 
-    return fetch(`http://localhost:5000/evetns/register`, requestOptions).then(handleResponse);
+    return fetch(CONFIG.EVENT_REGISTER, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {
