@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { setCurrentUser } from '../../redux/user/user.actions';
 
 import CartIcon from '../cart-icon/cart-icon.component';
 import CartDropdown from '../cart-dropdown/cart-dropdown.component';
@@ -25,7 +26,7 @@ const Header = ({ currentUser, hidden }) => (
       </Link>
       {
         currentUser ?
-        <div className='option' onClick={() => console.log()}>SIGN OUT</div>
+        <div className='option' onClick={() => setCurrentUser(null) }>SIGN OUT</div>
         :
         <Link className='option' to='/signin'>SIGN IN</Link>
       }
@@ -43,4 +44,9 @@ const mapStateToProps = ({user: { currentUser }, cart: { hidden }}) => ({
   hidden
 })
 
-export default connect(mapStateToProps)(Header);
+const mapDispatchToProps = dispatch => ({
+  setCurrentUser: user => dispatch(setCurrentUser(user))
+});
+
+// export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

@@ -1,3 +1,6 @@
+import CONFIG from '../../config/config.js';
+
+
 export const user = {
     login,
     logout,
@@ -11,7 +14,7 @@ function login(email, password) {
         body: JSON.stringify({ email, password })
     };
 
-    return fetch(`http://localhost:5000/users/authenticate`, requestOptions)
+    return fetch(CONFIG.USER_LOGIN, requestOptions)
         .then(handleResponse);
 }
 
@@ -27,7 +30,7 @@ function register(email, password) {
         body: JSON.stringify({email, password})
     };
 
-    return fetch(`http://localhost:5000/users/register`, requestOptions).then(handleResponse);
+    return fetch(CONFIG.USER_SIGNUP, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {
@@ -41,6 +44,9 @@ function handleResponse(response) {
 
             const error = (data && data.message) || response.statusText;
             return Promise.reject(error);
+        }
+        if (data.length === 0){
+          return null;
         }
         return data;
     });

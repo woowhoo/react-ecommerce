@@ -1,6 +1,7 @@
 import React from 'react';
 
 import SHOP_DATA from './shop.data.js';
+import CONFIG from '../../config/config.js';
 
 import CollectionPreview from '../../components/collection-preview/collection-preview.component';
 
@@ -16,7 +17,7 @@ class ShopPage extends React.Component {
   componentDidMount() {
     let newState = this.state.collections;
     for (const [index, value] of newState.entries()) {
-      fetch(`http://localhost:5000/collection/${value.routeName}`).then(
+      fetch(`${CONFIG.COLLECTION}/${value.routeName}`).then(
         resonse => resonse.json())
         .then(items => {
           newState[index].items = items;
