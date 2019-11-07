@@ -7,6 +7,8 @@ import CustomButton from '../custom-button/custom-button.component';
 import { setCurrentUser } from '../../redux/user/user.actions';
 import { user } from '../../utils/user/user.component';
 
+import { Auth } from "aws-amplify";
+
 
 import './sign-in.styles.scss';
 
@@ -27,6 +29,7 @@ class SignIn extends React.Component {
     try {
 
       const currentUser = await user.login(email, password);
+      // const currentUser = await Auth.signIn(email, password);
 
       this.setState({ email: '', password: ''})
       this.props.setCurrentUser(currentUser);

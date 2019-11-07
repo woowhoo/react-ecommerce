@@ -7,6 +7,8 @@ import CustomButton from '../custom-button/custom-button.component';
 import { setCurrentUser } from '../../redux/user/user.actions';
 import { user } from '../../utils/user/user.component';
 
+import { Auth } from "aws-amplify";
+
 import './sign-up.styles.scss';
 
 class SignUp extends React.Component {
@@ -34,6 +36,11 @@ class SignUp extends React.Component {
     try {
 
       const currentUser = await user.register(email, password);
+
+      // const currentUser = await Auth.signUp({
+      //   username: email,
+      //   password: password
+      // });
 
       this.setState({
         displayName: '',

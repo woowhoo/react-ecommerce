@@ -1,10 +1,13 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
 
 import { events } from '../../utils/event/event.component';
+
+import MutationCreateEvent from "../../graphql/mutationRegisterEvent";
+
+import { graphql, compose } from 'react-apollo';
 
 import './event.styles.scss';
 
@@ -25,16 +28,18 @@ class Event extends React.Component {
     const { name, email, mobile } = this.state;
 
     try {
+      const input = {
+        createeventinput: this.state
+      }
 
       await events.register(name, email, mobile);
+      // this.props.onAdd(input);
 
       this.setState({
         name: '',
         email: '',
         mobile: ''
       });
-
-      // this.props.setCurrentUser(currentUser);
 
     } catch (error) {
       console.error(error)
@@ -65,4 +70,12 @@ class Event extends React.Component {
 }
 
 
-export default connect(null, )(Event);
+export default compose(
+  graphql(MutationCreateEvent, {
+    props: props => ({
+      onAdd: event => props.mutate({
+        variables: event
+      })
+    })
+  })
+)(Event);
