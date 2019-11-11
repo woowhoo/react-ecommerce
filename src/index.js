@@ -11,6 +11,11 @@ import store from './redux/store'
 import Amplify from 'aws-amplify';
 import config from './config/cognito';
 
+import AWSAppSyncClient from "aws-appsync";
+import { Rehydrated } from "aws-appsync-react";
+import { ApolloProvider } from "react-apollo";
+
+
 Amplify.configure({
   Auth: {
     mandatorySignIn: false,
@@ -21,11 +26,23 @@ Amplify.configure({
   }
 });
 
+const client = new AWSAppSyncClient({
+  url: 'URL',
+  region: 'REGION',
+  auth: {
+    type: 'API_KEY',
+    apiKey: 'KEY',
+  }
+})
 
 ReactDOM.render(
-  <Provider store={store}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </Provider>,
+  <ApolloProvider client={client}>
+    <Rehydrated>
+      <Provider store={store}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </Provider>
+    </Rehydrated>
+  </ApolloProvider>,
   document.getElementById('root'));

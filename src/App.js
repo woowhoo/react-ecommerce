@@ -11,15 +11,13 @@ import EventPage from './pages/event/event.component';
 import Header from './components/header/header.component';
 
 import { ApolloProvider } from "react-apollo";
-import AWSAppSyncClient from "aws-appsync";
-import { Rehydrated } from "aws-appsync-react";
 
 import { setCurrentUser } from './redux/user/user.actions';
 
 class App extends React.Component {
 
   componentDidMount() {
-    // const { setCurrentUser } = this.props;
+    const { setCurrentUser } = this.props;
   }
 
   render() {
@@ -37,23 +35,6 @@ class App extends React.Component {
   }
 }
 
-const client = new AWSAppSyncClient({
-  url: 'URL',
-  region: 'REGION',
-  auth: {
-    type: 'API_KEY',
-    apiKey: 'KEY',
-  }
-})
-
-const WithProvider = () => (
-  <ApolloProvider client={client}>
-    <Rehydrated>
-      <App />
-    </Rehydrated>
-  </ApolloProvider>
-);
-
 
 const mapStateToProps = ({ user }) => ({
   currentUser: user.currentUser
@@ -65,4 +46,4 @@ const mapDispatchToProps = dispatch => ({
 
 // export default connect(null, )(App);
 
-export default connect(mapStateToProps, mapDispatchToProps)(WithProvider);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

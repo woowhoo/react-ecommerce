@@ -19,34 +19,53 @@ class SignUp extends React.Component {
        displayName: '',
        email: '',
        password: '',
-       confirmPassword: ''
+       confirmPassword: '',
+       verificationCode: '',
+       showVerification: false
     }
   }
 
   handleSubmit = async event => {
     event.preventDefault();
 
-    const { displayName, email, password, confirmPassword } = this.state;
+    const { displayName, email, password, confirmPassword, verificationCode, showVerification } = this.state;
 
     if(password !== confirmPassword) {
       alert("Passwords don't match");
       return;
     }
 
+    if(showVerification == false) {
+
+      const currentUser = await Auth.signUp({
+        username: email,
+        password: password
+      });
+
+      this.setState({
+        displayName: displayName,
+        email: email,
+        password: password,
+        confirmPassword: confirmPassword,
+        verificationCode: verificationCode,
+        showVerification: true
+      });
+      return;
+    }
+
     try {
 
-      const currentUser = await user.register(email, password);
-
-      // const currentUser = await Auth.signUp({
-      //   username: email,
-      //   password: password
-      // });
+      // const currentUser = await user.register(email, password);
+      console.log(verificationCode);
+      const currentUser = await Auth.confirmSignUp(email, verificationCode)
 
       this.setState({
         displayName: '',
         email: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        verificationCode: '',
+        showVerification: false
       });
 
       this.props.setCurrentUser(currentUser);
@@ -63,7 +82,7 @@ class SignUp extends React.Component {
   }
 
   render() {
-    const { displayName, email, password, confirmPassword } = this.state;
+    const { displayName, email, password, confirmPassword, verificationCode, showVerification } = this.state;
     return(
       <div className='sign-up'>
         <h2 className='title'>I do not have an account</h2>
@@ -73,6 +92,9 @@ class SignUp extends React.Component {
           <FormInput type='email' name='email' value={email} onChange={this.handleChange} label='Email' required />
           <FormInput type='password' name='password' value={password} onChange={this.handleChange} label='Password' required />
           <FormInput type='password' name='confirmPassword' value={confirmPassword} onChange={this.handleChange} label='Confirm Password' required />
+          {showVerification ? (
+            <FormInput type='text' name='verificationCode' value={verificationCode} onChange={this.handleChange} label='Verification Code' required />
+          ):(null)}
           <CustomButton type='submit'>SIGN UP</CustomButton>
         </form>
       </div>
