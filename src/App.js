@@ -10,14 +10,12 @@ import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up
 import EventPage from './pages/event/event.component';
 import Header from './components/header/header.component';
 
-import { ApolloProvider } from "react-apollo";
-
 import { setCurrentUser } from './redux/user/user.actions';
 
 class App extends React.Component {
 
   componentDidMount() {
-    const { setCurrentUser } = this.props;
+
   }
 
   render() {
