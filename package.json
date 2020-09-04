@@ -9,7 +9,7 @@
     "aws-appsync": "^2.0.2",
     "aws-appsync-react": "^2.0.2",
     "graphql-tag": "^2.10.1",
-    "node-sass": "^4.13.0",
+    "node-sass": "^4.13.1",
     "react": "^16.11.0",
     "react-apollo": "2.5.8",
     "react-dom": "^16.11.0",
